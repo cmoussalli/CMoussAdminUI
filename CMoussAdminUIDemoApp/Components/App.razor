@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <ResourcePreloader />
+
+
+
+    <CMoussAdminUI.Blazor.Components.AppFile.AppHead />
+
+
+    <!-- Custom Admin UI CSS -->
+    @* <link href="_content/CMoussAdminUI/css/adminui.css" rel="stylesheet" /> *@
+    <link rel="stylesheet" href="@Assets["app.css"]" />
+    <link rel="stylesheet" href="@Assets["CMoussAdminUIDemoApp.styles.css"]" />
+    <ImportMap />
+    <HeadOutlet @rendermode="InteractiveServer" />
+</head>
+
+<body>
+    <Routes @rendermode="InteractiveServer" />
+    <ReconnectModal />
+    <script src="@Assets["_framework/blazor.web.js"]" autostart="false"></script>
+
+    <CMoussAdminUI.Blazor.Components.AppFile.AppBody />
+
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+﻿@inherits LayoutComponentBase
+@using CMoussAdminUI.Services
+@using CMoussAdminUI.Models
+@inject INotificationService NotificationService
+
+@layout CMoussAdminUI.Blazor.Components.Layout.AdminLayout
+
+@Body
+
+@code {
+
+    [CascadingParameter]
+    public AuthLayoutModel authLayoutModel { get; set; }
+
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+
+
+        NotificationService.AddNotification(
+            authLayoutModel.User.Id,
+            "Welcome",
+            "You have successfully loaded the application!",
+            NotificationType.Info);
+    }
+}
+

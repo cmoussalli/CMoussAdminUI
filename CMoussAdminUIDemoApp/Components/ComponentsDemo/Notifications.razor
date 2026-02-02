@@ -1,0 +1,172 @@
+@page "/notifications"
+@using CMoussAdminUI.Services
+@using CMoussAdminUI.Models
+@using CMouss.IdentityFramework.BlazorUI
+@inject INotificationService NotificationService
+
+
+<!-- Notification Demo Section -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Test Notification System</h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-3">Test the notification system by clicking the buttons below:</p>
+
+                <div class="btn-group me-2 mb-2" role="group">
+                    <button class="btn btn-info" @onclick="AddInfoNotification">
+                        <i class="bi bi-info-circle me-1"></i> Info Notification
+                    </button>
+                    <button class="btn btn-success" @onclick="AddSuccessNotification">
+                        <i class="bi bi-check-circle me-1"></i> Success Notification
+                    </button>
+                    <button class="btn btn-warning" @onclick="AddWarningNotification">
+                        <i class="bi bi-exclamation-triangle me-1"></i> Warning Notification
+                    </button>
+                    <button class="btn btn-danger" @onclick="AddErrorNotification">
+                        <i class="bi bi-x-circle me-1"></i> Error Notification
+                    </button>
+                </div>
+
+                <div class="btn-group me-2 mb-2" role="group">
+                    <button class="btn btn-outline-info" @onclick="ShowInfoToast">
+                        <i class="bi bi-chat-dots me-1"></i> Info Toast
+                    </button>
+                    <button class="btn btn-outline-success" @onclick="ShowSuccessToast">
+                        <i class="bi bi-chat-dots me-1"></i> Success Toast
+                    </button>
+                    <button class="btn btn-outline-warning" @onclick="ShowWarningToast">
+                        <i class="bi bi-chat-dots me-1"></i> Warning Toast
+                    </button>
+                    <button class="btn btn-outline-danger" @onclick="ShowErrorToast">
+                        <i class="bi bi-chat-dots me-1"></i> Error Toast
+                    </button>
+                </div>
+
+                <div class="btn-group mb-2" role="group">
+                    <button class="btn btn-secondary" @onclick="AddNotificationWithAction">
+                        <i class="bi bi-link me-1"></i> Notification with Action
+                    </button>
+                    <button class="btn btn-secondary" @onclick="AddMultipleNotifications">
+                        <i class="bi bi-stack me-1"></i> Add 5 Notifications
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@code {
+    [CascadingParameter]
+    public AuthLayoutModel? AuthLayoutModel { get; set; }
+
+    private string CurrentUserId => AuthLayoutModel?.User?.Id ?? string.Empty;
+
+    private void AddInfoNotification()
+    {
+        if (string.IsNullOrEmpty(CurrentUserId)) return;
+        NotificationService.AddNotification(CurrentUserId, new Notification
+        {
+            Title = "Information",
+            Message = "This is an informational notification",
+            Type = NotificationType.Info,
+            Icon = "info-circle"
+        });
+    }
+
+    private void AddSuccessNotification()
+    {
+        if (string.IsNullOrEmpty(CurrentUserId)) return;
+        NotificationService.AddNotification(CurrentUserId, new Notification
+        {
+            Title = "Success!",
+            Message = "Your operation completed successfully",
+            Type = NotificationType.Success,
+            Icon = "check-circle"
+        });
+    }
+
+    private void AddWarningNotification()
+    {
+        if (string.IsNullOrEmpty(CurrentUserId)) return;
+        NotificationService.AddNotification(CurrentUserId, new Notification
+        {
+            Title = "Warning",
+            Message = "Please check your configuration settings",
+            Type = NotificationType.Warning,
+            Icon = "exclamation-triangle"
+        });
+    }
+
+    private void AddErrorNotification()
+    {
+        if (string.IsNullOrEmpty(CurrentUserId)) return;
+        NotificationService.AddNotification(CurrentUserId, new Notification
+        {
+            Title = "Error",
+            Message = "An error occurred while processing your request",
+            Type = NotificationType.Error,
+            Icon = "x-circle"
+        });
+    }
+
+    private void ShowInfoToast()
+    {
+        if (string.IsNullOrEmpty(CurrentUserId)) return;
+        NotificationService.ShowToast(CurrentUserId, "This is an info toast message", NotificationType.Info);
+    }
+
+    private void ShowSuccessToast()
+    {
+        if (string.IsNullOrEmpty(CurrentUserId)) return;
+        NotificationService.ShowToast(CurrentUserId, "Operation completed successfully!", NotificationType.Success);
+    }
+
+    private void ShowWarningToast()
+    {
+        if (string.IsNullOrEmpty(CurrentUserId)) return;
+        NotificationService.ShowToast(CurrentUserId, "Warning: Check your settings", NotificationType.Warning);
+    }
+
+    private void ShowErrorToast()
+    {
+        if (string.IsNullOrEmpty(CurrentUserId)) return;
+        NotificationService.ShowToast(CurrentUserId, "Error: Something went wrong", NotificationType.Error);
+    }
+
+    private void AddNotificationWithAction()
+    {
+        if (string.IsNullOrEmpty(CurrentUserId)) return;
+        NotificationService.AddNotification(CurrentUserId, new Notification
+        {
+            Title = "New Message",
+            Message = "You have received a new message. Click to view.",
+            Type = NotificationType.Info,
+            Icon = "envelope",
+            ActionUrl = "/messages",
+            ActionText = "View Message"
+        });
+    }
+
+    private void AddMultipleNotifications()
+    {
+        if (string.IsNullOrEmpty(CurrentUserId)) return;
+        var notifications = new[]
+        {
+            new Notification { Title = "User Registered", Message = "John Doe just signed up", Type = NotificationType.Success, Icon = "person-plus" },
+            new Notification { Title = "New Order", Message = "Order #12345 has been placed", Type = NotificationType.Info, Icon = "cart" },
+            new Notification { Title = "Payment Received", Message = "Payment of $500 received", Type = NotificationType.Success, Icon = "cash" },
+            new Notification { Title = "Low Stock", Message = "Product ABC is running low on stock", Type = NotificationType.Warning, Icon = "exclamation-triangle" },
+            new Notification { Title = "System Update", Message = "System will be updated tonight", Type = NotificationType.Info, Icon = "arrow-clockwise" }
+        };
+
+        foreach (var notification in notifications)
+        {
+            NotificationService.AddNotification(CurrentUserId, notification);
+        }
+    }
+}

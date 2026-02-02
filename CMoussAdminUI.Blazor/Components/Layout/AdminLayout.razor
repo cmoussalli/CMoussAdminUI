@@ -1,0 +1,138 @@
+@using CMouss.IdentityFramework.BlazorUI
+@using CMoussAdminUI.Services
+@inherits LayoutComponentBase
+@inject IJSRuntime JS
+@inject IThemeService ThemeService
+
+<PageTitle>@ThemeService.Theme.DefaultPageTitle</PageTitle>
+
+<CMouss.IdentityFramework.BlazorUI.AuthLayout>
+
+    <!-- Toast Notifications (inside AuthLayout to receive cascading AuthLayoutModel) -->
+    <ToastContainer />
+
+    <!-- Top Navigation Bar -->
+    <nav class="top-navbar d-flex align-items-center px-3">
+        <button class="hamburger-btn me-3" id="sidebarToggle" @onclick="ToggleSidebar">
+            <i class="bi bi-list fs-5"></i>
+        </button>
+        <h4 class="mb-0 text-muted me-auto">@ThemeService.Theme.ApplicationName</h4>
+        <div class="d-flex align-items-center">
+            <!-- Notifications Dropdown -->
+            <div class="me-3">
+                <NotificationDropdown />
+            </div>
+
+            <!-- User Profile Dropdown -->
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="color: #6c757d;">
+                    <img src="https://via.placeholder.com/32x32" alt="User" width="32" height="32" class="rounded-circle me-2" />
+                    <span class="d-none d-sm-inline">
+                        <UserProfileDropdown/>
+
+                    </span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end shadow">
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
+                    @* <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li> *@
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item" href="logout"><i class="bi bi-box-arrow-right me-2"></i>Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Overlay for mobile -->
+    <div class="overlay" id="overlay"></div>
+
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+            <!-- Sidebar -->
+            <div class="sidebar p-0" id="sidebar">
+                <div class="d-flex flex-column p-3 h-100">
+                    <!-- Brand -->
+                    <a href="/" class="navbar-brand d-flex align-items-center mb-3">
+                        @if (!string.IsNullOrEmpty(ThemeService.Theme.Logo.ImageUrl))
+                        {
+                            <img src="@ThemeService.Theme.Logo.ImageUrl"
+                                 alt="@ThemeService.Theme.Logo.AltText"
+                                 class="me-2"
+                                 style="height: 24px;" />
+                        }
+                        else
+                        {
+                            <i class="bi @ThemeService.Theme.Logo.IconClass me-2"></i>
+                        }
+                        <span>@ThemeService.Theme.ApplicationName</span>
+                    </a>
+
+                    <!-- Navigation -->
+                    <AdminNavigation />
+
+                    <!-- Bottom Navigation Links -->
+                    <div class="mt-auto">
+                        <ul class="nav nav-pills flex-column">
+                            <li class="nav-item mb-1">
+                                <a href="#" class="nav-link d-flex align-items-center px-3 py-2">
+                                    <i class="bi bi-file-earmark-text me-2"></i>
+                                    Reports
+                                </a>
+                            </li>
+                            <li class="nav-item mb-1">
+                                <a href="#" class="nav-link d-flex align-items-center px-3 py-2">
+                                    <i class="bi bi-question-circle me-2"></i>
+                                    Help & Support
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content" id="mainContent">
+                <!-- Page Content -->
+                <div class="container-fluid px-4 py-4">
+                    @Body
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</CMouss.IdentityFramework.BlazorUI.AuthLayout>
+
+
+
+@code {
+
+    [CascadingParameter]
+    public AuthLayoutModel authLayoutModel { get; set; }
+
+
+    private async Task ToggleSidebar()
+    {
+        await JS.InvokeVoidAsync("eval", @"
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            const overlay = document.getElementById('overlay');
+
+            if (window.innerWidth >= 768) {
+                sidebar.classList.toggle('collapsed');
+                mainContent.classList.toggle('collapsed');
+            } else {
+                sidebar.classList.toggle('show');
+                overlay.classList.toggle('show');
+            }
+        ");
+    }
+
+    private void ExecStateHasChanged()
+    {
+
+
+
+    }
+
+}

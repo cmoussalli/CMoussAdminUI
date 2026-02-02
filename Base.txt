@@ -1,0 +1,5 @@
+DatabaseType=SQLite
+ConnectionString=Data Source=Database.db;
+TokenEncryptionKey=12345678
+AdministratorUserName=admin
+AdministratorPassword=admin

@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(Get-ChildItem -Path CMoussAdminUI -Recurse -File)",
+      "Bash(Select-Object -First 30 FullName)",
+      "Bash(ForEach-Object { $_FullName })",
+      "Bash(Get-ChildItem -Path CMoussAdminUI.WebDemo -Recurse -File)",
+      "Bash(cp:*)",
+      "Bash(mkdir:*)",
+      "Bash(dotnet build:*)",
+      "Bash(Get-ChildItem -Path . -Directory)",
+      "Bash(Select-Object Name)",
+      "Bash(Get-ChildItem -Path \"HTML Template\" -Recurse -File)",
+      "Bash(Select-Object -First 20 FullName)",
+      "Bash(timeout 5 dotnet run:*)",
+      "Bash(cat:*)",
+      "Bash(findstr:*)"
+    ]
+  }
+}

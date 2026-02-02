@@ -1,0 +1,103 @@
+@using CMoussAdminUI.Services
+@using CMoussAdminUI.Models
+@using CMouss.IdentityFramework.BlazorUI
+@inject INotificationService NotificationService
+@implements IDisposable
+
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+    @foreach (var toast in _toasts)
+    {
+        <div class="toast show align-items-center border-0 @GetToastClass(toast.Type)" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body d-flex align-items-center">
+                    <i class="bi @GetToastIcon(toast.Type) me-2"></i>
+                    @toast.Message
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" @onclick="() => RemoveToast(toast.Id)"></button>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [CascadingParameter]
+    public AuthLayoutModel? AuthLayoutModel { get; set; }
+
+    private List<ToastNotification> _toasts = new();
+    private Dictionary<string, System.Threading.Timer> _timers = new();
+
+    private string CurrentUserId => AuthLayoutModel?.User?.Id ?? string.Empty;
+
+    protected override void OnInitialized()
+    {
+        NotificationService.OnToastNotification += OnToastNotification;
+    }
+
+    private async void OnToastNotification(ToastNotification toast)
+    {
+        if (toast.UserId != CurrentUserId)
+        {
+            return;
+        }
+
+        _toasts.Add(toast);
+        await InvokeAsync(StateHasChanged);
+
+        var timer = new System.Threading.Timer(_ =>
+        {
+            RemoveToast(toast.Id);
+        }, null, toast.DurationMs, Timeout.Infinite);
+
+        _timers[toast.Id] = timer;
+    }
+
+    private async void RemoveToast(string toastId)
+    {
+        var toast = _toasts.FirstOrDefault(t => t.Id == toastId);
+        if (toast != null)
+        {
+            _toasts.Remove(toast);
+
+            if (_timers.TryGetValue(toastId, out var timer))
+            {
+                timer.Dispose();
+                _timers.Remove(toastId);
+            }
+
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private string GetToastClass(NotificationType type)
+    {
+        return type switch
+        {
+            NotificationType.Success => "text-bg-success",
+            NotificationType.Warning => "text-bg-warning",
+            NotificationType.Error => "text-bg-danger",
+            _ => "text-bg-info"
+        };
+    }
+
+    private string GetToastIcon(NotificationType type)
+    {
+        return type switch
+        {
+            NotificationType.Success => "bi-check-circle-fill",
+            NotificationType.Warning => "bi-exclamation-triangle-fill",
+            NotificationType.Error => "bi-x-circle-fill",
+            _ => "bi-info-circle-fill"
+        };
+    }
+
+    public void Dispose()
+    {
+        NotificationService.OnToastNotification -= OnToastNotification;
+
+        foreach (var timer in _timers.Values)
+        {
+            timer.Dispose();
+        }
+        _timers.Clear();
+    }
+}

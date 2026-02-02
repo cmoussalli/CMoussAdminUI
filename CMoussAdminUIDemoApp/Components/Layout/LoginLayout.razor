@@ -1,0 +1,62 @@
+﻿@inherits LayoutComponentBase
+
+<div class="container-fluid bg-light min-vh-100">
+    <div class="row justify-content-center align-items-center min-vh-100">
+        <div class="col-md-8 col-lg-6 col-xl-4">
+            <div class="card shadow-lg border-0">
+                <!-- Header -->
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h3 class="mb-1"><i class="bi bi-shield-lock me-2"></i>PayHub</h3>
+                    <p class="mb-0 small opacity-75">Secure Login Portal</p>
+                </div>
+
+                <!-- Login Form -->
+                <div class="card-body p-4">
+                    <form id="loginForm" novalidate>
+                        
+                        
+                        @Body
+
+                        <!-- Divider -->
+                        <div class="text-center mb-3">
+                            <small class="text-muted">or</small>
+                        </div>
+
+                        <!-- Social Login Options -->
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <button type="button" class="btn btn-outline-primary w-100" onclick="loginWithGoogle()">
+                                    <i class="bi bi-google me-2"></i>Google
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button type="button" class="btn btn-outline-secondary w-100" onclick="loginWithMicrosoft()">
+                                    <i class="bi bi-microsoft me-2"></i>Microsoft
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Alert Messages -->
+                    <div id="alertContainer"></div>
+                </div>
+
+                <!-- Footer -->
+                <div class="card-footer bg-light text-center py-3">
+                    <small class="text-muted">
+                        Don't have an account?
+                        <a href="#" class="text-decoration-none" onclick="showSignUp()">Sign up here</a>
+                    </small>
+                </div>
+            </div>
+
+            <!-- Security Badge -->
+            <div class="text-center mt-3">
+                <small class="text-muted">
+                    <i class="bi bi-shield-check me-1"></i>
+                    Secured by PayHub SSL Encryption
+                </small>
+            </div>
+        </div>
+    </div>
+</div>

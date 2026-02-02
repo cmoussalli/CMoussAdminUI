@@ -1,0 +1,6 @@
+@using CMoussAdminUI.Services
+@inject IThemeService ThemeService
+
+<style id="adminui-theme-variables">
+    @((MarkupString)ThemeService.GenerateCssVariables())
+</style>

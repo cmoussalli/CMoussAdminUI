@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="CMoussAdminUI.Blazor/CMoussAdminUI.Blazor.csproj" Id="f17de45b-c1a4-45e0-977e-af7473e69dbd" />
+  <Project Path="CMoussAdminUI.Core/CMoussAdminUI.Core.csproj" Id="32443580-ac74-4f04-b627-8c8dc04b55ab" />
+  <Project Path="CMoussAdminUIDemoApp/CMoussAdminUIDemoApp.csproj" Id="02b9e011-a2c6-4f13-9061-d02bab7f7cac" />
+</Solution>

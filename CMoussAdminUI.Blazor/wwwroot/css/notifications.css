@@ -1,0 +1,23 @@
+.notification-dropdown .notification-item {
+    cursor: pointer;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 0.75rem 1rem;
+    transition: background-color 0.2s;
+}
+
+.notification-dropdown .notification-item:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.notification-dropdown .notification-item.unread {
+    background-color: rgba(108, 117, 125, 0.05);
+}
+
+.notification-dropdown .notification-item:last-child {
+    border-bottom: none;
+}
+
+.toast-container .toast {
+    min-width: 300px;
+    margin-bottom: 0.5rem;
+}

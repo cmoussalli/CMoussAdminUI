@@ -1,0 +1,68 @@
+@using CMoussAdminUI.Services
+@using CMoussAdminUI.Models
+@inject INavigationService NavigationService
+@implements IDisposable
+
+<ul class="nav nav-pills flex-column mb-auto">
+    @foreach (var item in _navigationItems)
+    {
+        <li class="nav-item mb-1">
+            <NavLink href="@item.Url" class="nav-link d-flex align-items-center px-3 py-2" Match="@GetMatchType(item.Url)">
+                @if (!string.IsNullOrEmpty(item.Icon))
+                {
+                    <i class="bi bi-@item.Icon me-2 @item.IconClass"></i>
+                }
+                @item.Text
+            </NavLink>
+            @if (item.Children?.Any() == true)
+            {
+                <ul class="nav nav-pills flex-column ms-3">
+                    @foreach (var child in item.Children.Where(c => c.Visible))
+                    {
+                        <li class="nav-item mb-1">
+                            <NavLink href="@child.Url" class="nav-link d-flex align-items-center px-3 py-2">
+                                @if (!string.IsNullOrEmpty(child.Icon))
+                                {
+                                    <i class="bi bi-@child.Icon me-2 @child.IconClass"></i>
+                                }
+                                @child.Text
+                            </NavLink>
+                        </li>
+                    }
+                </ul>
+            }
+        </li>
+    }
+</ul>
+
+@code {
+    private List<NavigationItem> _navigationItems = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadNavigationItems();
+        NavigationService.OnNavigationChanged += OnNavigationChanged;
+    }
+
+    private async Task LoadNavigationItems()
+    {
+        var items = await NavigationService.GetNavigationItemsAsync();
+        _navigationItems = items.ToList();
+    }
+
+    private async void OnNavigationChanged()
+    {
+        await LoadNavigationItems();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private NavLinkMatch GetMatchType(string url)
+    {
+        return url == "/" ? NavLinkMatch.All : NavLinkMatch.Prefix;
+    }
+
+    public void Dispose()
+    {
+        NavigationService.OnNavigationChanged -= OnNavigationChanged;
+    }
+}

@@ -1,0 +1,12 @@
+﻿<!-- Bootstrap 5 JS Bundle -->
+<script src="_content/CMoussAdminUI.Blazor/js/bootstrap/bootstrap.bundle.min.js"></script>
+<!-- Custom Admin UI JS -->
+<script src="_content/CMoussAdminUI/js/adminui.js"></script>
+<script>
+    Blazor.start().then(() => {
+        console.log('Blazor started');
+        if (typeof initializeAdminUI === 'function') {
+            initializeAdminUI();
+        }
+    });
+</script>

@@ -1,0 +1,75 @@
+﻿@page "/"
+@using CMoussAdminUI.Services
+@using CMoussAdminUI.Models
+@inject INotificationService NotificationService
+
+@* @layout CMoussAdminUI.Components.Layout.AdminLayout *@
+@layout CMoussAdminUIDemoApp.Components.Layout.MainLayout
+
+
+<PageTitle>Dashboard</PageTitle>
+
+<h3>Welcome back, @authLayoutModel.User.FullName</h3>
+
+
+<div class="row mt-4">
+    <div class="col-md-3 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-people"></i> Users</h5>
+                <p class="card-text display-6">1,234</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-cart"></i> Orders</h5>
+                <p class="card-text display-6">567</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-cash-stack"></i> Revenue</h5>
+                <p class="card-text display-6">$45K</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-graph-up"></i> Growth</h5>
+                <p class="card-text display-6">23%</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                Recent Activity
+            </div>
+            <div class="card-body">
+                <p>Your custom HTML/CSS template has been successfully integrated into this Blazor application!</p>
+                <p>The template includes:</p>
+                <ul>
+                    <li>Responsive sidebar navigation</li>
+                    <li>Top navigation bar with notifications and user menu</li>
+                    <li>Bootstrap 5 styling</li>
+                    <li>Mobile-friendly design</li>
+                    <li>Purple gradient theme</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [CascadingParameter]
+    public AuthLayoutModel authLayoutModel { get; set; }
+    
+}

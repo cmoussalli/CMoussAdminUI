@@ -1,0 +1,6 @@
+﻿@import "./bootstrap/bootstrap.min.css";
+@import "./bootstrap-icons/bootstrap-icons.css";
+
+@import "./theme.base.css";
+@import "./theme.light.css";
+@import "./adminui.css";

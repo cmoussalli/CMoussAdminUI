@@ -1,0 +1,11 @@
+﻿@using CMouss.IdentityFramework.BlazorUI
+
+
+@authLayoutModel.User.FullName
+
+@code {
+
+    [CascadingParameter]
+
+    public AuthLayoutModel authLayoutModel { get; set; }
+}
