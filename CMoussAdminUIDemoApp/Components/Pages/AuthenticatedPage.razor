@@ -1,0 +1,23 @@
+﻿@page "/authenticated"
+@using CMoussAdminUI.Services
+@using CMoussAdminUI.Models
+@inject INotificationService NotificationService
+
+@* @layout CMoussAdminUI.Components.Layout.AdminLayout *@
+@layout CMoussAdminUIDemoApp.Components.Layout.MainLayout
+
+
+<PageTitle>Dashboard</PageTitle>
+
+<h3>Welcome back, @authLayoutModel.User.FullName</h3>
+
+
+
+@code {
+    [CascadingParameter]
+    public AuthLayoutModel authLayoutModel { get; set; }
+
+
+
+
+}

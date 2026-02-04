@@ -33,4 +33,10 @@ public class CustomNavigationProvider : INavigationProvider
 
         return Task.FromResult<IEnumerable<NavigationItem>>(items);
     }
+
+
+
+
+
+
 }

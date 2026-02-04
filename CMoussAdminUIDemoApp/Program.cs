@@ -90,6 +90,7 @@ namespace CMoussAdminUIDemoApp
                 TokenValidationMode = TokenValidationMode.DecryptOnly,
                 AdministratorUserName = administratorUserName,
                 AdministratorPassword = administratorPassword,
+
             });
 
             DemoAppDBContext db = new();
